@@ -2,12 +2,37 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
-func main() {
-    greet()
+type Account struct {
+	Balance float64
 }
 
+func main() {
+	acc := Account{}
+    fmt.Println(acc.deposit(1000.0))
+	fmt.Println(acc.checkBalance())
+	acc.withdraw(500.0)
+}
+
+func (a *Account) deposit(amount float64) string {
+	a.Balance += amount
+   return "Deposit successful"
+}
+
+func (a Account) checkBalance() float64{
+    return a.Balance;
+}
+
+func (a *Account) withdraw(amount float64) {
+    if a.Balance >= amount {
+        a.Balance -= amount
+		fmt.Printf("withdraw successful of %.2f, remaining amount : %.2f",amount,a.Balance)
+	} else {
+		fmt.Print("Insufficient balance")
+	}
+}
 
 func reverse() {
 	var slice = make([]int,6,10)
@@ -39,7 +64,6 @@ func greet() {
 	var age int
     fmt.Print("Enter your age : ")
 	fmt.Scanln(&age)
-	
 	fmt.Printf("Hey %s! kudos to turning %d in hits year",name,age+1)
 }
 
@@ -54,4 +78,22 @@ func sum() {
 	}
 
 	fmt.Printf("Sum of 1st %d is %d",num,sum)
+}
+
+func countWords() {
+	str := "go is awsome go is fast"
+	str1 := strings.Split(str, " ")
+	freqMap := make(map[string]int)
+    
+	for i := 0; i < len(str1); i++ {
+       if _,ok := freqMap[str1[i]]; ok{
+           freqMap[str1[i]]++
+	   }else {
+		 freqMap[str1[i]] = 1
+	   }
+	}
+
+	for key, value := range freqMap {
+        fmt.Println(key,":", value)
+	}
 }
